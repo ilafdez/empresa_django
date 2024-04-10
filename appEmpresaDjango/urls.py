@@ -19,6 +19,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('/',views.index, name="index" ),
-    path('/empleados/',views.list, name="empleados_index")
+    path('/',views.index_departamentos, name="index" ),
+    path('/departamentos/<int:departamento_id>',views.show_departamento, name="departamentos_show"),
+    path('/departamentos/<int:departamento_id>/empleados', views.index_empleados, name="empleados_index"),
+    path('/empleados/<int:empleado_id>', views.show_empleado, name="empleados_show"),
+    path('/habilidades/<int:habilidad_id>', views.show_habilidad, name="habilidades_show")
+
 ]
