@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block contenido %}
+        <h2>Listado de departamentos</h2>
+        {% if departamentos %}
+            <ul>
+                {% for departamento in departamentos %}
+                	<li><a href="{% url 'departamentos_show' departamento.id %}">{{ departamento.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay departamentos creados.</p>
+        {% endif %}
+{% endblock %}

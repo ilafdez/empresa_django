@@ -1,0 +1,43 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Detalle del empleado</title>
+</head>
+<body>
+    <div id="content">
+        <h1>Gestor de Empleados</h1>
+        <h2>Detalle del empleado</h2>
+        {% if empleado %}
+            <ul>
+                <li>{{ empleado.nombre }}</li>
+                <li>{{ empleado.fecha_nacimiento }}</li>
+                <li>{{ empleado.antiguedad }}</li>
+                <li>
+                    <a href="{% url 'departamentos_show' empleado.departamento.id %}">{{ empleado.departamento.nombre }}</a>
+                </li>
+            </ul>
+            <h3>Habilidades:</h3>
+            {% if habilidades %}
+                <ol>
+                    {% for habilidad in habilidades %}
+                    	<li>
+                            <a href="{% url 'habilidades_show' habilidad.id %}">{{ habilidad.nombre }}</a>
+                        </li>
+                    {% endfor %}
+
+                </ol>
+            {% else %}
+                <p>No tiene habilidades asociadas.</p>
+            {% endif %}
+        {% else %}
+            <p>No existe este empleado.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
