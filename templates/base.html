@@ -12,6 +12,12 @@
 <body>
     <div id="content">
         <h1>Gestor de empleados</h1>
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="/appEmpresaDjango/departamentos">Lista de departamentos</a></li>
+            <li><a href="{% url 'departamento_create' %}">Crear departamento</a></li>
+            <li><a href="{% url 'empleado_create' %}">Crear empleado</a></li>
+        </ul>
         {% block contenido %}{% endblock %}
     </div>
 

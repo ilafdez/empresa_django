@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 
+from appEmpresaDjango.forms import DepartamentoForm, EmpleadoForm
 from appEmpresaDjango.models import Empleado, Departamento, Habilidad
 
 #1. FBV para listar departamentos
@@ -29,6 +30,9 @@ def show_departamento(request, departamento_id):
 #2. CBV para ver el detalle de un departamento
 class DepartamentoDetailView(DetailView):
     model = Departamento
+    def get_queryset(self):
+        departamento = get_object_or_404(Departamento, id=self.kwargs['pk'])
+        return Empleado.objects.filter(departamento=departamento)
 
 #3. FBV devuelve los empleados asociados a un departamento
 def index_empleados(request, departamento_id):
@@ -72,3 +76,42 @@ def show_habilidad(request, habilidad_id):
     output = (f'Detalles de la habilidad: {habilidad.id}, {habilidad.nombre},'
               f' Empleados :{[e.nombre for e in habilidad.empleado_set.all()]}')
     return HttpResponse(output)
+
+
+class DepartamentoCreateView(View):
+    def get(self, request):
+        formulario = DepartamentoForm()
+        context = {'formulario': formulario}
+        return render(request, 'appEmpresaDjango/departamento_create.html', context)
+
+    def post(self, request):
+        formulario = DepartamentoForm(data=request.POST)
+        if formulario.is_valid():
+            #Opción A:
+            #departamento =Departamento();
+            #departamento.nombre = formulario.cleaned_data['nombre']
+            #departamento.telefono = formulario.cleaned_data['telefono']
+            #departamento.save()
+            #Opción B:
+            formulario.save()
+            return redirect('index')
+        return render(request, 'appEmpresaDjango/departamento_create.html', {'formulario': formulario})
+
+
+class EmpleadoCreateView(View):
+    def get(self, request):
+        formulario = EmpleadoForm()
+        context = {'formulario': formulario}
+        return render(request, 'appEmpresaDjango/empleado_create.html', context)
+
+    def post(self, request):
+        formulario = EmpleadoForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('index')
+        return render(request, 'appEmpresaDjango/empleado_create.html', {'formulario': formulario})
+
+
+
+def probar_error(request):
+    return Exception("Esto es una prueba de error")
