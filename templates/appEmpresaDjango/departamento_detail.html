@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block contenido %}
+        <h2>Detalle del departamento</h2>
+        {% if departamento %}
+            <ul>
+                <li>{{ departamento.nombre }}</li>
+                <li>{{ departamento.telefono }}</li>
+                <li>
+                    <a href="{% url 'empleados_index' departamento.id %}">Ver empleados</a>
+                </li>
+            </ul>
+        {% else %}
+            <p>No existe este departamento.</p>
+        {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block contenido %}
+        <h2>Listado de empleados</h2>
+        <h3>{{ departamento.nombre }}</h3>
+        {% if empleados %}
+            <ul>
+                {% for empleado in empleados %}
+                	<li><a href="{% url 'empleados_show' empleado.id %}">{{ empleado.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay empleados creados.</p>
+        {% endif %}
+{% endblock %}
