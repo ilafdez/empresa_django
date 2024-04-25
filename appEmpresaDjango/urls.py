@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from .views import DepartamentoListView, DepartamentoDetailView, EmpleadoListView, EmpleadoDetailView, \
-    DepartamentoCreateView, EmpleadoCreateView
+    DepartamentoCreateView, EmpleadoCreateView, DepartamentoDeleteView, DepartamentoUpdateView
 
 urlpatterns = [
     #path('/',views.index_departamentos, name="index" ),
@@ -31,8 +31,13 @@ urlpatterns = [
     path('/empleados/<int:pk>', EmpleadoDetailView.as_view(), name="empleados_show"),
     path('/habilidades/<int:habilidad_id>', views.show_habilidad, name="habilidades_show"),
 
+    #Creates
     path('/departamentos/create', DepartamentoCreateView.as_view(), name='departamento_create'),
-    path('/empleados/create', EmpleadoCreateView.as_view(),name="empleado_create")
+    path('/empleados/create', EmpleadoCreateView.as_view(),name="empleado_create"),
+    #Delete y Update
+    path('/departamentos/delete/<int:pk>', DepartamentoDeleteView.as_view(), name='departamentos_delete'),
+    path('/departamentos/update/<int:pk>', DepartamentoUpdateView.as_view(),name="departamentos_update")
+
     #prueba de error 500
     #path('/error', views.probar_error, name="error")
 ]

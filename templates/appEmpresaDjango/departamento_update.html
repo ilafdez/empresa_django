@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block contenido %}
+    <h2>Editar departamento</h2>
+    <form action="{% url 'departamentos_update' departamento.id%}" method="post">
+        {% csrf_token %}
+        {{ formulario.errors }}
+        {{ formulario.as_ul }}
+        <input type="submit" value="Editar departamento"/>
+    </form>
+
+{% endblock %}

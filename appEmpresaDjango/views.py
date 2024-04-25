@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, View
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, View, DeleteView, UpdateView
 
 from appEmpresaDjango.forms import DepartamentoForm, EmpleadoForm
 from appEmpresaDjango.models import Empleado, Departamento, Habilidad
@@ -115,3 +116,29 @@ class EmpleadoCreateView(View):
 
 def probar_error(request):
     return Exception("Esto es una prueba de error")
+
+class DepartamentoDeleteView(DeleteView):
+    model = Departamento
+    success_url = reverse_lazy('index')
+
+
+class DepartamentoUpdateView(UpdateView):
+    model = Departamento
+    def get(self, request, pk):
+        departamento = Departamento.objects.get(id=pk)
+        formulario = DepartamentoForm( instance=departamento)
+        context = {
+            'formulario': formulario,
+            'departamento': departamento
+        }
+        return render(request, 'appEmpresaDjango/departamento_update.html', context)
+    # Llamada para procesar la actualización del departamento
+    def post(self, request, pk):
+        departamento = Departamento.objects.get(id= pk)
+        formulario = DepartamentoForm(request.POST, instance=departamento)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('departamentos_show', departamento.id)
+        else:
+            formulario= DepartamentoForm(instance=departamento)
+        return render(request, 'appEmpresaDjango/departamento_update.html', {'formulario': formulario})

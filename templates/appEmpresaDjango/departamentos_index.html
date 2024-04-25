@@ -4,7 +4,15 @@
         {% if departamentos %}
             <ul>
                 {% for departamento in departamentos %}
-                	<li><a href="{% url 'departamentos_show' departamento.id %}">{{ departamento.nombre }}</a></li>
+                	<li>
+                        <a href="{% url 'departamentos_show' departamento.id %}">{{ departamento.nombre }}</a>
+                        <a href="{% url 'departamentos_update' departamento.id %}">Actualizar</a>
+                        <form method="POST" action="{% url "departamentos_delete" departamento.id%}">
+                            {% csrf_token %}
+                            <input type="submit" value="Eliminar">
+                        </form>
+
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}
